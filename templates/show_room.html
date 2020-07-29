@@ -1,19 +1,153 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<<h1> {{ room.name }} </h1>
-<<pre>
-{{ room.description }}
-</pre>
 
-{% if room.name in ['death', 'The End'] %}
-  <<p><<a href="/">Play again?</a></p>
+
+{#................................ DEATH AND WINNER CONDITIONS ...................................#}
+
+{% if room.name in ['LOSER'] %}
+<h1>{{ room.name }}</h1>
+<p>
+    <br/>
+    <em style="color:rgb(126, 28, 28); font-size:2em;">{{ room.description }}</em>
+    <br/>
+    <a href="/">Try again!</a>
+</p>
+
+
+
+{% elif room.name in ['WINNER'] %}
+<h1>{{ room.name }}</h1>
+<p>
+    <em style="color:rgb(57, 119, 85); font-size:2em;">{{ room.description }}</em>
+    <br/>
+    <a href="/">Try again!</a>
+</p>
+
+
+
+{#................................ OUT OF COUNT AND REFRESH CONDITIONS ...................................#}
+
+{% elif (refresh >= 5 or count >= 5) %}
+<h1>GAME OVER>>{{ room.name }}</h1>
+
+    <p>
+        <em style="color:maroon; font-size:2em;">{{ room.description5 }}</em>
+        <br/>
+        <br/>
+        {% set r_death = room.quips|random %}
+        <h2>{{ r_death }}</h2>
+        <hr/>
+        <a href="/">Try again!</a>
+    </p>
+
+
+
+{#................................ CENTRAL CORRIDOR CONDITIONS ...................................#}
+
+{% elif (room.name == 'CENTRAL CORRIDOR' and 'shoot' in entry) %}
+<h1>{{ room.name }}</h1>
+
+    <p>
+        <em style="color:maroon; font-size:2em;">{{ room.description3 }}</em>
+        <br/>
+        <br/>
+        {% set r_death = room.quips|random %}
+        <h2>{{ r_death }}</h2>
+        <hr/>
+        <a href="/">Try again!</a>
+    </p>
+
+
+
+{% elif (room.name == 'CENTRAL CORRIDOR' and 'dodge' in entry) %}
+<h1>{{ room.name }}</h1>
+
+    <p>
+        <em style="color:maroon; font-size:2em;">{{ room.description4 }}</em>
+        <br/>
+        <br/>
+        {% set r_death = room.quips|random %}
+        <h2>{{ r_death }}</h2>
+        <hr/>
+        <a href="/">Try again!</a>
+    </p>
+
+
+
+{#...................................... THE BRIDGE CONDITIONS ......................................#}
+
+{% elif (room.name == 'THE BRIDGE' and 'attack' in entry) %}
+<h1>DEATH</h1>
+
+    <p>
+        <em style="color:maroon; font-size:2em;">{{ room.description3 }}</em>
+        <br/>
+        <br/>
+        {% set r_death = room.quips|random %}
+        <h2>{{ r_death }}</h2>
+        <hr/>
+        <a href="/">Try again!</a>
+    </p>
+
+
+
+{#...................................... CHEAT BLOCK ......................................#}
+
+{% elif (room.name == 'ESCAPE POD' and 'haki' in entry) %}
+
+<h1>{{ room.name }}</h1>
+<p>
+    <br/>
+    <em style="color:rgb(65, 44, 141); font-size:2em;">{{ cheat.description4 }}</em>
+    <br/>
+    <hr/>
+</p>
+<p>
+    <br/>
+    <em style="color:rgb(146, 148, 40); font-size:2em;">{{ room.description2 }}</em>
+    <br/>
+</p>
+
+<form action="/game" method="POST">
+    <br/>
+    Your answer:<input type="text" name="action">
+    <br/>
+
+    <p>
+        <input type="submit">
+    </p>
+</form>
+
+
+
+{#...................................... CORRECT ENTRY RUNNER ......................................#}
+
 {% else %}
-  <<p>
-  <<form action="/games" method="POST">
-    - <<input type="text" name="action">
-    <input type="SUBMIT">
-  </form>
-  </p>
-  {% endif %}
-  {% endblock %}
+
+<h1>{{ room.name }}</h1>
+<p>
+    <br/>
+    <em style="color:rgb(65, 44, 141); font-size:2em;">{{ room.description }}</em>
+    <br/>
+    <hr/>
+</p>
+<p>
+    <br/>
+    <em style="color:rgb(146, 148, 40); font-size:2em;">{{ room.description2 }}</em>
+    <br/>
+</p>
+
+<form action="/game" method="POST">
+    <br/>
+    Your answer:<input type="text" name="action">
+    <br/>
+
+    <p>
+        <input type="submit">
+    </p>
+</form>
+
+
+{% endif %}
+{% endblock %}

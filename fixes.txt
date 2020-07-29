@@ -1,0 +1,8 @@
+BUGS I REMEMBER FIXING DURING THE MAKING OF THIS PROGRAM(i did this late and forgot a bunch)
+
+1) the parser doesn't skip different consecutive stop words e.g "tell them a joke" returns "tell a joke", but "tell a a joke" returns "tell joke"("them" and "a" are stops)
+
+2) the lexicon was not a part of the map, which meant having to edit a general lexicon for new or multiple maps.
+
+3) The part in the book where he writes a test for the parser and passes in a number and has it return an int instead of a string is a BUG!!! FUCK!!
+    -- in the case that you pass in a number 000 as an int, the program will recognize it as 0 not 000. so use a bloody string.
